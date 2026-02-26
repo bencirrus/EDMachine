@@ -1,0 +1,267 @@
+:root {
+  --bg-color: #0d0f12;
+  --accent-color: #3b82f6;
+  /* Blue for synths */
+  --accent-drum: #ef4444;
+  /* Red for drums */
+  --surface-color: #1a1d24;
+  --text-color: #e2e8f0;
+
+  --synth-1: #0ea5e9;
+  --synth-2: #8b5cf6;
+  --synth-3: #ec4899;
+  --synth-4: #f43f5e;
+
+  --drum-1: #facc15;
+  --drum-2: #f97316;
+  --drum-3: #ef4444;
+  --drum-4: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Inter', -apple-system, sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+  /* mobile optimized, centered on desktop */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Visualization Top Area */
+#visualizer-container {
+  flex: 1;
+  width: 100%;
+  background: var(--surface-color);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 40px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#visualizer {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#status-text {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+/* UI Button Container */
+#pad-container {
+  width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  /* Gap between the 4 quadrants */
+  margin-bottom: 20px;
+}
+
+/* Each of the 4 quadrants is a square relative container */
+.quadrant {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* The actual clickable triangular shapes */
+.pad {
+  position: absolute;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  cursor: pointer;
+  transition: filter 0.1s, transform 0.1s;
+  background-size: cover;
+  background-position: center;
+}
+
+.pad:active {
+  filter: brightness(1.5);
+  z-index: 5;
+}
+
+.pad.active-loop {
+  animation: pulse 1s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+  z-index: 10;
+  /* Elevate so the drop-shadow frame draws cleanly over adjacent pads */
+}
+
+@keyframes pulse {
+  0% {
+    /* Pad is dim, but the thin frame drop-shadow is extremely bright & white */
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 1)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.8)) brightness(0.4);
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+
+  100% {
+    /* Pad is very bright, wide outer glow, but the thin white frame disappears */
+    filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0)) drop-shadow(0 0 30px currentColor) brightness(1.8);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* 
+  Top-Left Quadrant 
+  Outer triangle: Top-Left corner
+  Inner triangle: Bottom-Right part of quadrant 
+*/
+#pad-synth-outer-tl {
+  top: 0;
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(135deg, var(--synth-1) 0%, transparent 80%);
+  color: var(--synth-1);
+}
+
+#pad-synth-inner-tl {
+  bottom: 0;
+  right: 0;
+  clip-path: polygon(100% 100%, 100% 0, 0 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(-45deg, var(--synth-2) 0%, transparent 80%);
+  color: var(--synth-2);
+}
+
+/* 
+  Top-Right Quadrant 
+  Outer: Top-Right corner
+  Inner: Bottom-Left part
+*/
+#pad-synth-outer-tr {
+  top: 0;
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(-135deg, var(--synth-3) 0%, transparent 80%);
+  color: var(--synth-3);
+}
+
+#pad-synth-inner-tr {
+  bottom: 0;
+  left: 0;
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(45deg, var(--synth-4) 0%, transparent 80%);
+  color: var(--synth-4);
+}
+
+/* 
+  Bottom-Left Quadrant 
+  Outer: Bottom-Left corner
+  Inner: Top-Right part
+*/
+#pad-drum-outer-bl {
+  bottom: 0;
+  left: 0;
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(45deg, var(--drum-1) 0%, transparent 80%);
+  color: var(--drum-1);
+}
+
+#pad-drum-inner-bl {
+  top: 0;
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(-135deg, var(--drum-2) 0%, transparent 80%);
+  color: var(--drum-2);
+}
+
+/* 
+  Bottom-Right Quadrant 
+  Outer: Bottom-Right corner
+  Inner: Top-Left part
+*/
+#pad-drum-outer-br {
+  bottom: 0;
+  right: 0;
+  clip-path: polygon(100% 100%, 100% 0, 0 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(-45deg, var(--drum-3) 0%, transparent 80%);
+  color: var(--drum-3);
+}
+
+#pad-drum-inner-br {
+  top: 0;
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  background-color: var(--surface-color);
+  background-image: linear-gradient(135deg, var(--drum-4) 0%, transparent 80%);
+  color: var(--drum-4);
+}
+
+/* A small gap to separate the inner diamond from the outer corners, handled by making width slightly smaller and positioning */
+.pad {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Start overlay */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+#start-btn {
+  background: var(--surface-color);
+  color: white;
+  border: 2px solid var(--accent-color);
+  padding: 20px 40px;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  transition: all 0.2s;
+}
+
+#start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+}

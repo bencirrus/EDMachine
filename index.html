@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EDMachine</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+</head>
+
+<body>
+  <div id="overlay">
+    <button id="start-btn">TAP TO START AUDIO</button>
+  </div>
+
+  <div id="app">
+    <!-- Visualizer / Rhythm Display -->
+    <div id="visualizer-container">
+      <div id="status-text">BPM: 128</div>
+      <canvas id="visualizer"></canvas>
+    </div>
+
+    <!-- UI Buttons -->
+    <div id="pad-container">
+
+      <!-- Top Left Quadrant -->
+      <div class="quadrant">
+        <div id="pad-synth-outer-tl" class="pad" data-id="synth1"></div>
+        <div id="pad-synth-inner-tl" class="pad" data-id="synth2"></div>
+      </div>
+
+      <!-- Top Right Quadrant -->
+      <div class="quadrant">
+        <div id="pad-synth-inner-tr" class="pad" data-id="synth3"></div>
+        <div id="pad-synth-outer-tr" class="pad" data-id="synth4"></div>
+      </div>
+
+      <!-- Bottom Left Quadrant -->
+      <div class="quadrant">
+        <div id="pad-drum-outer-bl" class="pad" data-id="drum1"></div>
+        <div id="pad-drum-inner-bl" class="pad" data-id="drum2"></div>
+      </div>
+
+      <!-- Bottom Right Quadrant -->
+      <div class="quadrant">
+        <div id="pad-drum-inner-br" class="pad" data-id="drum3"></div>
+        <div id="pad-drum-outer-br" class="pad" data-id="drum4"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js?v=6"></script>
+</body>
+
+</html>
