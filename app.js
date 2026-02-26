@@ -195,6 +195,10 @@ const patterns = {
 // Construct sequences
 Object.keys(patterns).forEach(id => {
   const p = patterns[id];
+
+  // Randomize the default variation on load so the first press isn't always the first pattern
+  p.currentVariation = Math.floor(Math.random() * p.grooves.length);
+
   p.sequence = new Tone.Sequence(
     (time, el) => {
       // THE FIX: If the pad is not active, do not play the note!
@@ -212,7 +216,7 @@ Object.keys(patterns).forEach(id => {
         p.instrument.triggerAttackRelease(el.note, el.dur, time);
       }
     },
-    p.grooves[0],
+    p.grooves[p.currentVariation],
     p.subdiv
   ).start(0);
 });
@@ -268,13 +272,19 @@ pads.forEach(pad => {
         // Short press toggle loop
         if (!p.active) {
           p.active = true;
+          p.currentVariation = Math.floor(Math.random() * p.grooves.length);
+          p.sequence.events = p.grooves[p.currentVariation];
           channels[id].mute = false;
           pad.classList.add('active-loop');
           pad.style.filter = 'brightness(2) drop-shadow(0 0 20px white)';
           setTimeout(() => { pad.style.filter = ''; }, 100);
         } else {
-          // If already active, switch variations
-          p.currentVariation = (p.currentVariation + 1) % p.grooves.length;
+          // If already active, switch to a random variation (avoiding the same one)
+          let newVariation = Math.floor(Math.random() * p.grooves.length);
+          if (newVariation === p.currentVariation && p.grooves.length > 1) {
+            newVariation = (newVariation + 1) % p.grooves.length;
+          }
+          p.currentVariation = newVariation;
           p.sequence.events = p.grooves[p.currentVariation];
           pad.style.filter = 'brightness(1.5)';
           setTimeout(() => { pad.style.filter = ''; }, 100);
