@@ -3,13 +3,19 @@
 
 <head>
   <meta charset="UTF-8">
+  <!-- Mobile viewport optimization for fullscreen app experience -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>EDMachine</title>
+
+  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Audio Engine Dependency -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 </head>
 
 <body>
+  <!-- Initial Overlay required for browser audio context interaction policy -->
   <div id="overlay">
     <button id="start-btn">TAP TO START AUDIO</button>
   </div>
@@ -21,28 +27,28 @@
       <canvas id="visualizer"></canvas>
     </div>
 
-    <!-- UI Buttons -->
+    <!-- UI Buttons: Divided into 4 distinct quadrants for Synthesizers and Drums -->
     <div id="pad-container">
 
-      <!-- Top Left Quadrant -->
+      <!-- Top Left Quadrant: Synth 1 & 2 -->
       <div class="quadrant">
         <div id="pad-synth-outer-tl" class="pad" data-id="synth1"></div>
         <div id="pad-synth-inner-tl" class="pad" data-id="synth2"></div>
       </div>
 
-      <!-- Top Right Quadrant -->
+      <!-- Top Right Quadrant: Synth 3 & 4 -->
       <div class="quadrant">
         <div id="pad-synth-inner-tr" class="pad" data-id="synth3"></div>
         <div id="pad-synth-outer-tr" class="pad" data-id="synth4"></div>
       </div>
 
-      <!-- Bottom Left Quadrant -->
+      <!-- Bottom Left Quadrant: Drum 1 & 2 -->
       <div class="quadrant">
         <div id="pad-drum-outer-bl" class="pad" data-id="drum1"></div>
         <div id="pad-drum-inner-bl" class="pad" data-id="drum2"></div>
       </div>
 
-      <!-- Bottom Right Quadrant -->
+      <!-- Bottom Right Quadrant: Drum 3 & 4 -->
       <div class="quadrant">
         <div id="pad-drum-inner-br" class="pad" data-id="drum3"></div>
         <div id="pad-drum-outer-br" class="pad" data-id="drum4"></div>
@@ -51,6 +57,7 @@
     </div>
   </div>
 
+  <!-- Application Logic -->
   <script src="app.js?v=6"></script>
 </body>
 

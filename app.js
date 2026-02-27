@@ -1,9 +1,27 @@
+/**
+ * EDMachine - Master Control Application
+ * 
+ * Handles audio context initialization, synthesizer creation,
+ * UI interaction logic, and dynamic canvas-based visualization.
+ * 
+ * Note: Tone.js is required as an external dependency.
+ */
+
+// --- UI Elements ---
 const startBtn = document.getElementById('start-btn');
 const overlay = document.getElementById('overlay');
 const pads = document.querySelectorAll('.pad');
 const statusText = document.getElementById('status-text');
 
+/** 
+ * Application State
+ * Tracks whether the Tone.js audio context has been started.
+ */
 let isInitialized = false;
+
+// ----------------------------------------------------
+// AUDIO CHAIN ROUTING
+// ----------------------------------------------------
 
 // Analyzers
 const waveform = new Tone.Waveform(256);
@@ -24,6 +42,14 @@ synthBus.chain(touchHPF, touchLPF, masterComp);
 const channels = {};
 const instruments = {};
 
+/**
+ * Creates and registers a Tone.Channel for a specific instrument.
+ * @param {string} id - The unique identifier for the instrument.
+ * @param {number} pan - The stereo panning value (-1 to 1).
+ * @param {number} vol - The volume level in decibels (default 0).
+ * @param {Tone.ToneAudioNode} dest - The destination node (default masterComp).
+ * @returns {Tone.Channel} The configured Tone.Channel instance.
+ */
 const createChannel = (id, pan, vol = 0, dest = masterComp) => {
   const channel = new Tone.Channel({ volume: vol, pan: pan, mute: true }).connect(dest);
   channels[id] = channel;
@@ -321,7 +347,14 @@ Object.keys(patterns).forEach(id => {
   ).start(0);
 });
 
-// Initialization
+// ----------------------------------------------------
+// INITIALIZATION & AUDIO CONTEXT
+// ----------------------------------------------------
+
+/**
+ * Starts the audio engine, loads sample contexts, and starts the transport.
+ * Triggered by the initial user interaction to bypass browser autoplay policies.
+ */
 startBtn.addEventListener('click', async () => {
   statusText.innerText = "Loading samples...";
   startBtn.innerText = "LOADING...";
@@ -342,8 +375,14 @@ startBtn.addEventListener('click', async () => {
   drawVisualizer();
 });
 
-// Interaction Logic
+// ----------------------------------------------------
+// UI INTERACTION LOGIC
+// ----------------------------------------------------
+
+/** Milliseconds before a press is considered a long press */
 const PRESS_THRESHOLD = 500;
+
+/** Tracking the start timestamp of touches per pad ID */
 const touchStates = {};
 
 pads.forEach(pad => {

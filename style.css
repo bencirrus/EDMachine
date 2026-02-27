@@ -1,3 +1,10 @@
+/**
+ * EDMachine - Main Stylesheet
+ * 
+ * Contains global variables, reset rules, and layout logic
+ * for the visualizer and interactive trigger pads.
+ */
+
 :root {
   --bg-color: #0d0f12;
   --accent-color: #3b82f6;
@@ -48,7 +55,9 @@ body {
   padding: 20px;
 }
 
-/* Visualization Top Area */
+/* ==========================================================================
+   Visualization Top Area
+   ========================================================================== */
 #visualizer-container {
   flex: 1;
   width: 100%;
@@ -80,7 +89,9 @@ body {
   pointer-events: none;
 }
 
-/* UI Button Container */
+/* ==========================================================================
+   UI Button Container (Quadrant Grid)
+   ========================================================================== */
 #pad-container {
   width: 100%;
   aspect-ratio: 1;
@@ -234,7 +245,9 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Start overlay */
+/* ==========================================================================
+   Overlay & Loading Screen
+   ========================================================================== */
 #overlay {
   position: fixed;
   top: 0;
