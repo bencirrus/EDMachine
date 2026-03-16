@@ -1,6 +1,6 @@
 # EDMachine 🎹⚡️
 
-**A goovebox in a browser built w/Antigravity IDE by Google.**
+**A goovebox in a browser built w/Antigravity IDE by Google powered by Gemini.**
  
 ### 🕹️ How to Play 
 - **Short Press**: Toggle pads to change grooves.
